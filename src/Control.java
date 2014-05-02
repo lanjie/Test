@@ -16,7 +16,7 @@ public class Control {
 		t.setWaitingTime(Math.abs(random.nextInt() % 10));
 		t.setTimestamp(System.currentTimeMillis());
 
-		TimeUnit.MINUTES.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+		
 				
 		return t;
 	}
@@ -31,8 +31,15 @@ public class Control {
 	}
 	
 	
-	public void removeTuplesFromMemory(LinkedList<Tuple> memory) {
+	public void removeExpiredTuples(Long windowSize) {
 		
+		long latestTuple = TimeUnit.MINUTES.convert((System.currentTimeMillis() + windowSize), TimeUnit.MILLISECONDS);
+		long oldestTuple = TimeUnit.MINUTES.convert(memory.getFirst().getTimestamp(), TimeUnit.MILLISECONDS);
+		
+		if(oldestTuple > latestTuple) {
+			
+			memory.removeFirst();
+		}
 		
 	}
 	
