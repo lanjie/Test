@@ -6,7 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Control {
 	
-	LinkedList<Tuple> memory = new LinkedList<Tuple>();
+	public static LinkedList<Tuple> memory = new LinkedList<Tuple>();
+
 	
 	public Tuple createTuple() {
 		
@@ -31,22 +32,24 @@ public class Control {
 	}
 	
 	
-	public void removeExpiredTuples(Long windowSize) {
+	public boolean removeExpiredTuples(LinkedList<Tuple> memory, Long windowSize) {
 		
-		long latestTuple = TimeUnit.MINUTES.convert((System.currentTimeMillis() + windowSize), TimeUnit.MILLISECONDS);
-		long oldestTuple = TimeUnit.MINUTES.convert(memory.getFirst().getTimestamp(), TimeUnit.MILLISECONDS);
+		long latestTuple = System.currentTimeMillis();
+		long oldestTuple = memory.getFirst().getTimestamp() + windowSize;
 		
-		if(oldestTuple > latestTuple) {
+		if(oldestTuple < latestTuple) {
 			
-			memory.removeFirst();
+			Control.memory.removeFirst();
+			return true;
 		}
+		return false;
 		
 	}
 	
 	
 	
 	
-	public Double AVG(LinkedList<Tuple> memory) {
+	public void AVG(LinkedList<Tuple> memory) {
 		
 		double amount = 0;
 		
@@ -58,8 +61,8 @@ public class Control {
 		
 		System.out.println("Size = " + memory.size());
 		System.out.println("Amount = " + amount);
-		
-		return amount/memory.size();
+		System.out.println("AVG = " + amount/memory.size());
+
 	}
 	
 
