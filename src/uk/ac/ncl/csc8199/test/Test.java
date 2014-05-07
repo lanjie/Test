@@ -1,13 +1,19 @@
+package uk.ac.ncl.csc8199.test;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import uk.ac.ncl.csc8199.control.Control;
+import uk.ac.ncl.csc8199.task.ComputeTask;
+import uk.ac.ncl.csc8199.task.CreateTask;
+import uk.ac.ncl.csc8199.task.RemoveTask;
+
 
 public class Test{
 
 
-	public static long windowSize = TimeUnit.SECONDS.toMillis(1);
+	public static long windowSize = TimeUnit.SECONDS.toMillis(10);
 	public static long slideSize = TimeUnit.SECONDS.toMillis(1);
 
 	
