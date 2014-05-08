@@ -16,6 +16,7 @@ public class Control {
 	public void SSM(LinkedList<Tuple> memory) {
 		
 		double amount = 0;
+		double count = 0;
 		long startTime = memory.getFirst().getTimestamp();
 		
 		SSMTuple ssmTuple = new SSMTuple();
@@ -23,22 +24,21 @@ public class Control {
 		for(Iterator<Tuple> i = memory.iterator(); i.hasNext(); ){
 			
 			
-			if(startTime == i.next().getTimestamp()) {
+			if(startTime < (startTime + TimeUnit.SECONDS.toMillis(1))) {
 			
 				Tuple temp = i.next();
-				amount+=temp.getWaitingTime();
-			
+				amount+=temp.getWaitingTime();				
+				count++;
+				i.remove();
 			}
-			else {
-				
-				ssmTuple.setAmonut(amount);
-				ssmTuple.setSSMtimestamp(startTime);
-				ssmTuple.setSampleSize(memory.size());
-				SSMMemory.add(ssmTuple);
-				this.removeExpiredTuples(memory, TimeUnit.SECONDS.toMillis(1));
-				
-			}
+
 		}
+		
+		ssmTuple.setAmonut(amount);
+		ssmTuple.setSSMtimestamp(startTime);
+		ssmTuple.setSampleSize(count);
+		SSMMemory.add(ssmTuple);
+		
 	}
 	
 	public void SSMAVG(LinkedList<SSMTuple> SSMMemory) {
@@ -54,7 +54,7 @@ public class Control {
 			
 		}
 		
-		System.out.println("Size = " + size);
+		System.out.println("SampleSize = " + size);
 		System.out.println("Amount = " + amount);
 		System.out.println("AVG = " + amount/size);
 		System.out.println("------------------------");

@@ -40,7 +40,7 @@ public class Test{
 		Timer timer = new Timer();
 		
 		timer.schedule(new CreateTask(), 0, 1);
-		timer.schedule(new Core2LATask(), 0, 1);
+		timer.schedule(new Core2LATask(), 10, 1000);
 		timer.schedule(new Compute2LATask(), 1000, Test.slideSize);
 		//timer.schedule(new RemoveTask(), 1, Test.windowSize);
 	}

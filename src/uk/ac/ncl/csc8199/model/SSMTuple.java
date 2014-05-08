@@ -3,7 +3,7 @@ package uk.ac.ncl.csc8199.model;
 public class SSMTuple {
 	
 	public double amonut;
-	public long sampleSize;
+	public double sampleSize;
 	public long SSMtimestamp;
 	public double getAmonut() {
 		return amonut;
@@ -11,10 +11,10 @@ public class SSMTuple {
 	public void setAmonut(double amonut) {
 		this.amonut = amonut;
 	}
-	public long getSampleSize() {
+	public double getSampleSize() {
 		return sampleSize;
 	}
-	public void setSampleSize(long sampleSize) {
+	public void setSampleSize(double sampleSize) {
 		this.sampleSize = sampleSize;
 	}
 	public long getSSMtimestamp() {
