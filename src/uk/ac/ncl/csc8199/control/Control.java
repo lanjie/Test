@@ -4,13 +4,64 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import uk.ac.ncl.csc8199.model.SSMTuple;
 import uk.ac.ncl.csc8199.model.Tuple;
 
 
 public class Control {
 	
 	public static LinkedList<Tuple> memory = new LinkedList<Tuple>();
+	public static LinkedList<SSMTuple> SSMMemory = new LinkedList<SSMTuple>();
 
+	public void SSM(LinkedList<Tuple> memory) {
+		
+		double amount = 0;
+		long startTime = memory.getFirst().getTimestamp();
+		
+		SSMTuple ssmTuple = new SSMTuple();
+		
+		for(Iterator<Tuple> i = memory.iterator(); i.hasNext(); ){
+			
+			
+			if(startTime == i.next().getTimestamp()) {
+			
+				Tuple temp = i.next();
+				amount+=temp.getWaitingTime();
+			
+			}
+			else {
+				
+				ssmTuple.setAmonut(amount);
+				ssmTuple.setSSMtimestamp(startTime);
+				ssmTuple.setSampleSize(memory.size());
+				SSMMemory.add(ssmTuple);
+				this.removeExpiredTuples(memory, TimeUnit.SECONDS.toMillis(1));
+				
+			}
+		}
+	}
+	
+	public void SSMAVG(LinkedList<SSMTuple> SSMMemory) {
+		
+		double amount = 0;
+		double size = 0;
+		
+		for(Iterator<SSMTuple> i = SSMMemory.iterator(); i.hasNext(); ){
+			
+			SSMTuple temp = i.next();
+			amount+=temp.getAmonut();
+			size+=temp.getSampleSize();
+			
+		}
+		
+		System.out.println("Size = " + size);
+		System.out.println("Amount = " + amount);
+		System.out.println("AVG = " + amount/size);
+		System.out.println("------------------------");
+		System.out.println("SSMMemorySize = " + SSMMemory.size());
+		System.out.println("memorySize = " + memory.size());
+		System.out.println("------------------------");
+	}
 	
 	public Tuple createTuple() {
 		
