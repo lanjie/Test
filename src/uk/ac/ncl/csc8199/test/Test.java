@@ -1,7 +1,6 @@
 package uk.ac.ncl.csc8199.test;
 
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import uk.ac.ncl.csc8199.control.Control;
@@ -24,27 +23,27 @@ public class Test{
  */
 		
 		
-/*		Control c = new Control();
+		Control c = new Control();
 		Timer timer = new Timer();
 		
 		timer.schedule(new CreateTask(), 0, 1);
 		timer.schedule(new ComputeTask(), 1000, Test.slideSize);
-		timer.schedule(new RemoveTask(), 1, Test.windowSize);*/
+		timer.schedule(new RemoveTask(), 1, Test.windowSize);
 
 
 /*
  * ---------------------------This is 2LA test block----------------------------------
  */
 		
-		Control c = new Control();
+/*		Control c = new Control();
 		Timer timer = new Timer();
 		
 		timer.schedule(new CreateTask(), 0, 1);
 		timer.schedule(new Core2LATask(), 10, 1000);
 		timer.schedule(new Compute2LATask(), 1000, Test.slideSize);
 		//timer.schedule(new RemoveTask(), 1, Test.windowSize);
-	}
+	}*/
 
-		
+	}	
 
 }
