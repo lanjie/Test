@@ -13,20 +13,22 @@ import java.io.*;
  */
 public class OutputFile {
 	
-	static File file = new File("H:\\report.txt");
 
-	public String getContent(Long startTime, Long endTime, Long cupInfo) {
+
+	public String getContent(Long startTime, Long endTime, Long freeMemory) {
 		
-		String content = startTime.toString() +","+ endTime.toString() +","+ cupInfo +"\n";
+		String content = startTime.toString() +","+ endTime.toString() +","+ freeMemory.toString() +"\n";
 		
 		return content;
 	}
 	
-	public static void writeIntoReport(String content) {
+	public static boolean writeIntoReport(String content) {
 
+		boolean flag = false;
+		
 		try {
  
-			File file = new File("C:\\report.txt");
+			File file = new File("D:\\report-3600-1-300000-128-MO-1W.csv");
  
 
 			if (!file.exists()) {
@@ -34,31 +36,21 @@ public class OutputFile {
 			}
  
 
-				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write(content);
 				bw.flush();
 				bw.close();
 				System.out.println("Done");
+				flag = true;
 
+		
  
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static boolean logfile(String content) throws IOException {
-		boolean flag = false;
-		byte[] buffer = new byte[]{};
-
-		if (!file.exists()) {
-			file.createNewFile();
-		}
 		
-		FileOutputStream fos = new FileOutputStream(file, true);
-		fos.write(buffer);
-		flag = true;
-
 		return flag;
 	}
+
 }

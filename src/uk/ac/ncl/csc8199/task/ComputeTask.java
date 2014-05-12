@@ -1,12 +1,10 @@
 package uk.ac.ncl.csc8199.task;
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 import java.util.TimerTask;
+import java.lang.management.*;
+import com.sun.management.*;
 
 import uk.ac.ncl.csc8199.control.Control;
-import uk.ac.ncl.csc8199.data.CPUCollector;
 import uk.ac.ncl.csc8199.data.OutputFile;
-import uk.ac.ncl.csc8199.model.MonitorInfoBean;
 
 
 public class ComputeTask extends TimerTask{
@@ -23,19 +21,11 @@ public class ComputeTask extends TimerTask{
 		
 		control.AVG(Control.memory);
 		System.out.println(Runtime.getRuntime().maxMemory()/1024/1024 + "MB/"+ Runtime.getRuntime().freeMemory()/1024/1024 + "MB/" + Runtime.getRuntime().totalMemory()/1024/1024 + "MB");
-		startTime = Control.memory.getFirst().getTimestamp();
+		startTime = Control.memory.getLast().getTimestamp();
 		endTime = System.currentTimeMillis();
-		CPUCollector c =new CPUCollector();
 
-	          MonitorInfoBean monitorInfo = null;
-			try {
-				monitorInfo = c.getMonitorInfoBean();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		OutputFile.writeIntoReport(outputFile.getContent(startTime, endTime, Runtime.getRuntime().freeMemory()/1024/1024));
 
-		OutputFile.writeIntoReport(outputFile.getContent(startTime, endTime, ManagementFactory.getRuntimeMXBean().getUptime()));
 	}
 
 }

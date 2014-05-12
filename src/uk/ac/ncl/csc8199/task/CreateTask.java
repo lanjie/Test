@@ -12,7 +12,7 @@ public class CreateTask extends TimerTask{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		for(int i = 0; i < 50; i++) {
+		for(int i = 0; i < 300; i++) {
 			Control.memory = control.insertTuplesIntoMemery(control.createTuple());
 		}
 		

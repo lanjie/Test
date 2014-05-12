@@ -1,22 +1,19 @@
 package uk.ac.ncl.csc8199.task;
-import java.util.TimerTask;
 
-import uk.ac.ncl.csc8199.control.Control;
+import uk.ac.ncl.csc8199.control.*;
 import uk.ac.ncl.csc8199.test.Test;
 
-
-public class RemoveTask extends TimerTask{
+public class Remove2LATask {
 
 	Control control = new Control();
+	Control2LA control2la = new Control2LA();
 	Test test = new Test();
-	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 
-		while(control.removeExpiredTuples(Control.memory, Test.windowSize)){
+		while(control2la.removeExpiredTuples(Control.SSMMemory, Test.windowSize)){
 			
 		}
 		//System.out.println("-------------------");
 	}
-
 }
