@@ -1,7 +1,6 @@
 package uk.ac.ncl.csc8199.task;
 import java.util.TimerTask;
-import java.lang.management.*;
-import com.sun.management.*;
+
 
 import uk.ac.ncl.csc8199.control.Control;
 import uk.ac.ncl.csc8199.data.OutputFile;

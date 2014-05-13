@@ -24,6 +24,8 @@ public class SSMTuple {
 		SSMtimestamp = sSMtimestamp;
 	}
 	
+	public SSMTuple(){};
 	
+	public SSMTuple(double amount, double sample, long SSMtimeStamp) {};
 
 }

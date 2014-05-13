@@ -2,8 +2,7 @@ package uk.ac.ncl.csc8199.task;
 import java.util.TimerTask;
 
 import uk.ac.ncl.csc8199.control.Control;
-import uk.ac.ncl.csc8199.data.OutputFile;
-import uk.ac.ncl.csc8199.model.Tuple;
+
 
 
 public class CreateTask extends TimerTask{
