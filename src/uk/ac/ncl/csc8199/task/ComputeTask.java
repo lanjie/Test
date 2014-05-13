@@ -1,8 +1,8 @@
 package uk.ac.ncl.csc8199.task;
 import java.util.TimerTask;
 
-
 import uk.ac.ncl.csc8199.control.Control;
+import uk.ac.ncl.csc8199.control.Memory2LA;
 import uk.ac.ncl.csc8199.data.OutputFile;
 
 
@@ -24,7 +24,8 @@ public class ComputeTask extends TimerTask{
 		endTime = System.currentTimeMillis();
 
 		OutputFile.writeIntoReport(outputFile.getContent(startTime, endTime, Runtime.getRuntime().freeMemory()/1024/1024));
-
+		Memory2LA memory2la = new Memory2LA();
+		memory2la.insertToMongoDB();
 	}
 
 }

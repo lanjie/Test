@@ -16,9 +16,9 @@ import com.mongodb.MongoClient;
 
 public class MongoUtil {
 	
-	private static MongoClient mongoClient;
-	private static DB db;
-	private static DBCollection coll;
+	public static MongoClient mongoClient;
+	public static DB db;
+	public static DBCollection coll;
 
 	public static void init1W() {
 		
@@ -27,7 +27,7 @@ public class MongoUtil {
 	         // 连接到数据库
 	         db = mongoClient.getDB( "SlideM" );
 		 System.out.println("Connect to database successfully");        
-	         coll = db.getCollection("SSMTuple");
+	         coll = db.getCollection("Tuple");
 	         System.out.println("Collection mycol selected successfully");
 	         
 
@@ -79,7 +79,7 @@ public class MongoUtil {
 		BasicDBObject doc = new BasicDBObject("TimeStamp", timeStamp).
 	            append("WaitingTime", waitingTime);
 	         coll.insert(doc);
-	         System.out.println("Document inserted successfully");
+	       //  System.out.println("Document inserted successfully");
 	}
 	
 }
