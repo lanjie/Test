@@ -19,7 +19,7 @@ public class MongoTask extends TimerTask{
 		
 		if (ssmTuple != null) {
 			
-			MongoUtil.insert(ssmTuple);
+			MongoUtil.insert2LA(ssmTuple);
 		}
 
 

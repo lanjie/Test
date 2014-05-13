@@ -38,7 +38,7 @@ public class Test{
  */
 		
 		Timer timer = new Timer();
-		MongoUtil.init();
+		MongoUtil.init2LA();
 		
 		timer.schedule(new CreateTask(), 0, 1);
 		timer.schedule(new Core2LATask(), 10, 1000);
