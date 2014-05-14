@@ -10,18 +10,54 @@ public class MO1W {
 	
 	public static double amount = 0;
 	
-	public void AVG(LinkedList<Tuple> memory) {
+	public void AVG(LinkedList<Tuple> memory, Long windowSize, Long slideSize) {
 			
+		long headEnd = getCurrentTime() - windowSize;
+		long headStart = memory.getFirst().getTimestamp();
+		long tailStart = memory.getFirst().getTimestamp() + windowSize;
+		long tailEnd = getCurrentTime();
+		
 		for(Iterator<Tuple> i = memory.iterator(); i.hasNext(); ){
 			
 			Tuple temp = i.next();
-			amount+=temp.getWaitingTime();
+			long tempStamp = temp.getTimestamp();
+			
+			if(tempStamp < headEnd) {
+			
+				amount-=temp.getWaitingTime();
+				System.out.println("HEAD");
+				
+
+			}
+			
+			else if(tailStart < tempStamp && tempStamp < tailEnd) {
+				
+				amount+=temp.getWaitingTime();
+				System.out.println("TAIL");
+				
+
+			}
+			
+			else if(tempStamp < tempStamp + windowSize) {
+				
+				amount+=temp.getWaitingTime();
+				System.out.println("M");
+			}
+			 
+
 		}
 		
 		System.out.println("Size = " + memory.size());
 		System.out.println("Amount = " + amount);
 		System.out.println("AVG = " + amount/memory.size());
 
+	}
+	
+	public Long getCurrentTime() {
+		
+		long currentTime = TimeUnit.NANOSECONDS.toMicros(System.nanoTime());
+		
+		return currentTime;
 	}
 	
 	public boolean removeExpiredTuples(LinkedList<Tuple> memory,Long windowSize) {

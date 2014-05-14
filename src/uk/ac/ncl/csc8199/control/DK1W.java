@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import uk.ac.ncl.csc8199.model.SSMTuple;
 
-public class Control2LA {
+public class DK1W {
 
 	public boolean removeExpiredTuples(LinkedList<SSMTuple> SSMMemory, Long windowSize) {
 		
