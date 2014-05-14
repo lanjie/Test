@@ -2,6 +2,7 @@ package uk.ac.ncl.csc8199.control;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 import uk.ac.ncl.csc8199.model.Tuple;
 
@@ -23,9 +24,9 @@ public class MO1W {
 
 	}
 	
-	public boolean removeExpiredTuples(LinkedList<Tuple> memory, Long slideSize, Long windowSize) {
+	public boolean removeExpiredTuples(LinkedList<Tuple> memory,Long windowSize) {
 		
-		long latestTuple = System.nanoTime() - windowSize;
+		long latestTuple = TimeUnit.NANOSECONDS.toMicros(System.nanoTime()) - windowSize;
 		long oldestTuple = memory.getFirst().getTimestamp();
 		
 		if(oldestTuple < latestTuple) {

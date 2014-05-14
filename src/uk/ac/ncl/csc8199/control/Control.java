@@ -69,9 +69,9 @@ public class Control {
 		Random random = new Random();
 		
 		t.setWaitingTime(Math.abs(random.nextInt() % 10));
-		t.setTimestamp(System.nanoTime());
+		t.setTimestamp(TimeUnit.NANOSECONDS.toMicros(System.nanoTime()));
 
-
+		//System.out.println(t.getTimestamp() +"|"+ t.getWaitingTime());
 				
 		return t;
 	}

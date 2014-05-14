@@ -14,8 +14,8 @@ import uk.ac.ncl.csc8199.util.MongoUtil;
 public class Test{
 
 
-	public static long windowSize = TimeUnit.SECONDS.toNanos(10);
-	public static long slideSize = TimeUnit.SECONDS.toNanos(5);
+	public static long windowSize = TimeUnit.SECONDS.toMicros(10);
+	public static long slideSize = TimeUnit.SECONDS.toMillis(1);
 
 	
 	public static void main(String[] args) throws UnknownHostException {
@@ -29,9 +29,9 @@ public class Test{
 
 		Timer timer = new Timer();
 		
-		timer.schedule(new CreateTask(), 0, 1);
+		timer.schedule(new CreateTask(), 0, 1000);
 		timer.schedule(new ComputeMO1WTask(), 0, Test.slideSize);
-		timer.schedule(new RemoveMO1WTask(), 0, Test.slideSize);
+		timer.schedule(new RemoveMO1WTask(), 10, Test.slideSize);
 		
 /*
  * ---------------------------This is 2LA test block----------------------------------

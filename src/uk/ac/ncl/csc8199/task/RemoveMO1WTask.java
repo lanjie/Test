@@ -14,7 +14,7 @@ public class RemoveMO1WTask extends TimerTask{
 	public void run() {
 		// TODO Auto-generated method stub
 
-		while(mo1w.removeExpiredTuples(Control.memory, Test.windowSize, Test.windowSize)){
+		while(mo1w.removeExpiredTuples(Control.memory, Test.windowSize)){
 			
 		}
 
