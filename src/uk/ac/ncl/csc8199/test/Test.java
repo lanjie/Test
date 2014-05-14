@@ -14,26 +14,25 @@ import uk.ac.ncl.csc8199.util.MongoUtil;
 public class Test{
 
 
-	public static long windowSize = TimeUnit.SECONDS.toMillis(5);
-	public static long slideSize = TimeUnit.SECONDS.toMillis(1);
+	public static long windowSize = TimeUnit.SECONDS.toNanos(10);
+	public static long slideSize = TimeUnit.SECONDS.toNanos(5);
 
 	
 	public static void main(String[] args) throws UnknownHostException {
 		// TODO Auto-generated method stub
 
+
+
 /*
- * ---------------------------This is 1W test block----------------------------------
- */
-		
-		
+ * ---------------------------This is MO-1W test block----------------------------------
+ */	
+
 		Timer timer = new Timer();
-		MongoUtil.init1W();
 		
 		timer.schedule(new CreateTask(), 0, 1);
-		timer.schedule(new ComputeTask(), 1000, Test.slideSize);
-		timer.schedule(new RemoveTask(), 1, Test.windowSize);
+		timer.schedule(new ComputeMO1WTask(), 0, Test.slideSize);
+		timer.schedule(new RemoveMO1WTask(), 0, Test.slideSize);
 		
-
 /*
  * ---------------------------This is 2LA test block----------------------------------
  */

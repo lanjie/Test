@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import uk.ac.ncl.csc8199.model.Tuple;
 
-public class Control1w {
+public class MO1W {
 	
 	public static double amount = 0;
 	
@@ -21,6 +21,20 @@ public class Control1w {
 		System.out.println("Amount = " + amount);
 		System.out.println("AVG = " + amount/memory.size());
 
+	}
+	
+	public boolean removeExpiredTuples(LinkedList<Tuple> memory, Long slideSize, Long windowSize) {
+		
+		long latestTuple = System.nanoTime() - windowSize;
+		long oldestTuple = memory.getFirst().getTimestamp();
+		
+		if(oldestTuple < latestTuple) {
+			
+			Control.memory.removeFirst();
+			return true;
+		}
+		return false;
+		
 	}
 
 }

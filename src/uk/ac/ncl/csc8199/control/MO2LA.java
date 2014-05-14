@@ -1,13 +1,21 @@
 package uk.ac.ncl.csc8199.control;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
+
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import uk.ac.ncl.csc8199.model.Tuple;
 import uk.ac.ncl.csc8199.task.MongoTask;
 import uk.ac.ncl.csc8199.test.Test;
 import uk.ac.ncl.csc8199.util.MongoUtil;
 
-public class Memory2LA {
+public class MO2LA {
 	
 	public void insertToMongoDB() {
 		
@@ -34,6 +42,20 @@ public class Memory2LA {
 	
 	public void getFromMongoDB() {
 		
+		BasicDBObject query = new BasicDBObject();
+		BasicDBObject field = new BasicDBObject();
+		field.put("TimeStamp", (System.currentTimeMillis() - Test.windowSize));
+		ArrayList <Long> tempMemory = new ArrayList<Long>();
+		
+		DBCursor cursor = MongoUtil.coll.find(query, field);
+		while(cursor.hasNext()) {
+			
+			DBObject temp = cursor.next();
+			tempMemory.add((Long)temp.get("WaitingTime"));
+			cursor.remove();
+			
+			
+		}
 
 	}
 	

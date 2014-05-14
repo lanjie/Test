@@ -69,9 +69,9 @@ public class Control {
 		Random random = new Random();
 		
 		t.setWaitingTime(Math.abs(random.nextInt() % 10));
-		t.setTimestamp(System.currentTimeMillis());
+		t.setTimestamp(System.nanoTime());
 
-		
+
 				
 		return t;
 	}
@@ -86,7 +86,7 @@ public class Control {
 	}
 	
 	
-	public boolean removeExpiredTuples(LinkedList<Tuple> memory, Long windowSize) {
+/*	public boolean removeExpiredTuples(LinkedList<Tuple> memory, Long windowSize) {
 		
 		long latestTuple = System.currentTimeMillis();
 		long oldestTuple = memory.getFirst().getTimestamp() + windowSize;
@@ -98,7 +98,7 @@ public class Control {
 		}
 		return false;
 		
-	}
+	}*/
 	
 	
 	
