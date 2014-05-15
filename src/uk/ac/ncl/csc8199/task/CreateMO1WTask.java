@@ -12,9 +12,9 @@ public class CreateMO1WTask extends TimerTask{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		//for(int i = 0; i < 1; i++) {
+		for(int i = 0; i < 300; i++) {
 			mo1w.controlTuple((mo1w.createTuple()));
-		//}
+		}
 		
 
 		

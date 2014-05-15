@@ -6,9 +6,7 @@ package uk.ac.ncl.csc8199.util;
 import uk.ac.ncl.csc8199.model.SSMTuple;
 import uk.ac.ncl.csc8199.model.Tuple;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
@@ -24,11 +22,10 @@ public class MongoUtil {
 		
 		try{   
 			mongoClient = new MongoClient( "localhost" , 27017 );
-	         // 连接到数据库
-	         db = mongoClient.getDB( "SlideM" );
-		 System.out.println("Connect to database successfully");        
-	         coll = db.getCollection("Tuple");
-	         System.out.println("Collection mycol selected successfully");
+	        db = mongoClient.getDB( "SlideM" );
+	        System.out.println("Connect to database successfully");        
+	        coll = db.getCollection("Tuple");
+	        System.out.println("Collection mycol selected successfully");
 	         
 
 	      }catch(Exception e){
@@ -79,7 +76,7 @@ public class MongoUtil {
 		BasicDBObject doc = new BasicDBObject("TimeStamp", timeStamp).
 	            append("WaitingTime", waitingTime);
 	         coll.insert(doc);
-	       //  System.out.println("Document inserted successfully");
+	       //System.out.println("Document inserted successfully");
 	}
 	
 }

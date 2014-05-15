@@ -9,7 +9,7 @@ import uk.ac.ncl.csc8199.test.Test;
 
 public class MO1W {
 	
-	public static double sum = 0;
+	private static double sum = 0;
 
 	
 	public Tuple createTuple() {

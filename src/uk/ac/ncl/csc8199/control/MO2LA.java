@@ -14,7 +14,6 @@ import com.mongodb.DBObject;
 
 import uk.ac.ncl.csc8199.model.SSMTuple;
 import uk.ac.ncl.csc8199.model.Tuple;
-import uk.ac.ncl.csc8199.task.MongoTask;
 import uk.ac.ncl.csc8199.test.Test;
 import uk.ac.ncl.csc8199.util.MongoUtil;
 

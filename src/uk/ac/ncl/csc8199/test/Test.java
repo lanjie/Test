@@ -15,7 +15,7 @@ import uk.ac.ncl.csc8199.util.MongoUtil;
 public class Test{
 
 
-	public static long windowSize = TimeUnit.SECONDS.toMicros(3600);
+	public static long windowSize = TimeUnit.SECONDS.toMicros(10);
 	public static long slideSize = TimeUnit.SECONDS.toMillis(1);
 
 	
@@ -28,16 +28,16 @@ public class Test{
  * ---------------------------This is MO-1W test block----------------------------------
  */	
 
-		Timer timer = new Timer();
+/*		Timer timer = new Timer();
 		//AtomicReference<Double> sum = new AtomicReference<Double>();
 		//AtomicReference<Integer> count = new AtomicReference<Integer>();
 		timer.schedule(new CreateMO1WTask(), 0, 1);
 		timer.schedule(new ComputeMO1WTask(), 0, Test.slideSize);
 		//timer.schedule(new RemoveMO1WTask(), 10, Test.slideSize);
-	
+*/	
 		
 /*
- * ---------------------------This is MO-1W test block----------------------------------
+ * ---------------------------This is MO-2LA test block----------------------------------
  */	
 		
 /*		Timer timer = new Timer();
@@ -48,19 +48,15 @@ public class Test{
 		//timer.schedule(new RemoveMO1WTask(), 10, Test.slideSize);
 */		
 /*
- * ---------------------------This is 2LA test block----------------------------------
+ * ---------------------------This is DISK-1W test block----------------------------------
  */
 		
-/*		Timer timer = new Timer();
-		MongoUtil.init2LA();
+		Timer timer = new Timer();
+		MongoUtil.init1W();
 		
-		timer.schedule(new CreateTask(), 0, 1);
-		timer.schedule(new Core2LATask(), 10, 1000);
-		timer.schedule(new MongoTask(), 500, 1000);
-		timer.schedule(new Compute2LATask(), 1000, Test.slideSize);
-		timer.schedule(new RemoveTask(), 1, Test.windowSize);*/
-	}
+		timer.schedule(new CreateDK1WTask(), 0, 1);
+		timer.schedule(new ComputeDK1WTask(), 0, Test.slideSize);
 
-	
+	}	
 
 }

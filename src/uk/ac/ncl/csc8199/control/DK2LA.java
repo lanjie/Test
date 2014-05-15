@@ -10,7 +10,7 @@ import uk.ac.ncl.csc8199.model.Tuple;
 import uk.ac.ncl.csc8199.test.Test;
 import uk.ac.ncl.csc8199.util.MongoUtil;
 
-public class Disk2LA {
+public class DK2LA {
 	
 	public void insertToMongoDB() {
 		

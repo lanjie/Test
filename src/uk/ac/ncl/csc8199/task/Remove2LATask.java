@@ -10,10 +10,7 @@ public class Remove2LATask {
 	Test test = new Test();
 	public void run() {
 		// TODO Auto-generated method stub
-
-		while(control2la.removeExpiredTuples(Control.SSMMemory, Test.windowSize)){
 			
-		}
 		//System.out.println("-------------------");
 	}
 }
