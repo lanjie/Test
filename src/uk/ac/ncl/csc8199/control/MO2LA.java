@@ -36,47 +36,50 @@ public class MO2LA {
 		return tuple;
 	}
 	
-	public void SSM(LinkedList<Tuple> memory) {
+	public void insertTuplesIntoMemery(Tuple tuple) {
+		
+		Control.memory.add(tuple);
+				
+	}
+	
+	public SSMTuple createSSMTuple(LinkedList<Tuple> memory) {
 		
 		double amount = 0;
 		double count = 0;
 		long startTime = memory.getFirst().getTimestamp();
 		
 		SSMTuple ssmTuple = new SSMTuple();
+		ssmTuple.setSSMtimestamp(startTime);
 		
 		for(Iterator<Tuple> i = memory.iterator(); i.hasNext(); ){
-			
-			
-			if(startTime < (startTime + TimeUnit.SECONDS.toMillis(1))) {
-			
+
 				Tuple temp = i.next();
 				amount+=temp.getWaitingTime();				
 				count++;
 				i.remove();
-			}
+
 
 		}
 		
 		ssmTuple.setAmonut(amount);
 		ssmTuple.setSSMtimestamp(startTime);
 		ssmTuple.setSampleSize(count);
-		Control.SSMMemory.add(ssmTuple);
+
+		
+		return ssmTuple;
 		
 	}
 	
-	public Double controlSSMTuple(SSMTuple SSMTuple) {
+	public void controlSSMTuple(SSMTuple ssmTuple) {
 		
-		sum += SSMTuple.getAmonut();
-		size += SSMTuple.getSampleSize();
-		Control.SSMMemory.add(SSMTuple);
+		sum += ssmTuple.getAmonut();
+		size += ssmTuple.getSampleSize();
+		Control.SSMMemory.add(ssmTuple);
 		
 		while(removeExpiredTuples()){
 			
 		}
-				
-		return sum;
-
-		
+					
 	}
 	
 	public boolean removeExpiredTuples() {
@@ -84,12 +87,21 @@ public class MO2LA {
 		if(Control.SSMMemory.getFirst().getSSMtimestamp() < (getCurrentTime() - Test.windowSize)) {
 			
 			sum -= Control.SSMMemory.getFirst().getAmonut();
-			Control.memory.removeFirst();
+			size -= Control.SSMMemory.getFirst().getSampleSize();
+			Control.SSMMemory.removeFirst();
 			
 			return true;
 		}
 		
 		return false;
+	}
+	
+	public void SSMAVG(LinkedList<SSMTuple> SSMMemory) {
+		
+		System.out.println("Size = " + size);
+		System.out.println("Amount = " + sum);
+		System.out.println("AVG = " + sum/size);
+
 	}
 	
 	public Long getCurrentTime() {

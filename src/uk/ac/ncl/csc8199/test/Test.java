@@ -15,7 +15,7 @@ import uk.ac.ncl.csc8199.util.MongoUtil;
 public class Test{
 
 
-	public static long windowSize = TimeUnit.SECONDS.toMicros(10);
+	public static long windowSize = TimeUnit.SECONDS.toMicros(3600);
 	public static long slideSize = TimeUnit.SECONDS.toMillis(1);
 
 	
@@ -31,10 +31,22 @@ public class Test{
 		Timer timer = new Timer();
 		//AtomicReference<Double> sum = new AtomicReference<Double>();
 		//AtomicReference<Integer> count = new AtomicReference<Integer>();
-		timer.schedule(new CreateTask(), 0, 1);
+		timer.schedule(new CreateMO1WTask(), 0, 1);
 		timer.schedule(new ComputeMO1WTask(), 0, Test.slideSize);
 		//timer.schedule(new RemoveMO1WTask(), 10, Test.slideSize);
+	
 		
+/*
+ * ---------------------------This is MO-1W test block----------------------------------
+ */	
+		
+/*		Timer timer = new Timer();
+		//AtomicReference<Double> sum = new AtomicReference<Double>();
+		//AtomicReference<Integer> count = new AtomicReference<Integer>();
+		timer.schedule(new CreateMO2LATask(), 0, 1);
+		timer.schedule(new ComputeMO2LATask(), 1, Test.slideSize);
+		//timer.schedule(new RemoveMO1WTask(), 10, Test.slideSize);
+*/		
 /*
  * ---------------------------This is 2LA test block----------------------------------
  */
