@@ -1,56 +1,77 @@
 package uk.ac.ncl.csc8199.control;
 
-import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import uk.ac.ncl.csc8199.model.Tuple;
+import uk.ac.ncl.csc8199.test.Test;
 
 public class MO1W {
 	
-	public static double amount = 0;
+	public static double sum = 0;
+
 	
-	public void AVG(LinkedList<Tuple> memory, Long windowSize, Long slideSize) {
-			
-		long headEnd = getCurrentTime() - windowSize;
-		long headStart = memory.getFirst().getTimestamp();
-		long tailStart = memory.getFirst().getTimestamp() + windowSize;
-		long tailEnd = getCurrentTime();
+	public Tuple createTuple() {
+
+		Tuple tuple = new Tuple();
+		Random random = new Random();
 		
-		for(Iterator<Tuple> i = memory.iterator(); i.hasNext(); ){
-			
-			Tuple temp = i.next();
-			long tempStamp = temp.getTimestamp();
-			
-			if(tempStamp < headEnd) {
-			
-				amount-=temp.getWaitingTime();
-				System.out.println("HEAD");
-				
+		tuple.setWaitingTime(Math.abs(random.nextInt() % 10));
+		tuple.setTimestamp(TimeUnit.NANOSECONDS.toMicros(System.nanoTime()));
 
-			}
+				
+		return tuple;
+	}
+	
+	
+	public Double controlTuple(Tuple tuple) {
+		
+		sum += tuple.getWaitingTime();
+		Control.memory.add(tuple);
+		
+		while(removeExpiredTuples()){
 			
-			else if(tailStart < tempStamp && tempStamp < tailEnd) {
+		}
 				
-				amount+=temp.getWaitingTime();
-				System.out.println("TAIL");
-				
+		return sum;
 
-			}
+		
+	}
+	
+	public void AVG(LinkedList<Tuple> memory) {
+				
+		System.out.println("Size = " + memory.size());
+		System.out.println("Amount = " + sum);
+		System.out.println("AVG = " + sum/memory.size());
+
+	}
+	
+
+	
+	public boolean isExpired(Tuple temp) {
+		
+		if(temp.getTimestamp() < (getCurrentTime() - Test.windowSize)) {
 			
-			else if(tempStamp < tempStamp + windowSize) {
-				
-				amount+=temp.getWaitingTime();
-				System.out.println("M");
-			}
-			 
-
+		//	System.out.println("Expired");
+			
+			return true;
+		
 		}
 		
-		System.out.println("Size = " + memory.size());
-		System.out.println("Amount = " + amount);
-		System.out.println("AVG = " + amount/memory.size());
-
+		return false;
+	}
+	
+	public boolean isLatest(Tuple temp) {
+		
+		if(temp.getTimestamp() > (getCurrentTime() - TimeUnit.MILLISECONDS.toMicros(Test.slideSize))) {
+			
+		//	System.out.println("Latest");
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public Long getCurrentTime() {
@@ -60,18 +81,17 @@ public class MO1W {
 		return currentTime;
 	}
 	
-	public boolean removeExpiredTuples(LinkedList<Tuple> memory,Long windowSize) {
+	public boolean removeExpiredTuples() {
 		
-		long latestTuple = TimeUnit.NANOSECONDS.toMicros(System.nanoTime()) - windowSize;
-		long oldestTuple = memory.getFirst().getTimestamp();
-		
-		if(oldestTuple < latestTuple) {
+		if(Control.memory.getFirst().getTimestamp() < (getCurrentTime() - Test.windowSize)) {
 			
+			sum -= Control.memory.getFirst().getWaitingTime();
 			Control.memory.removeFirst();
+			
 			return true;
 		}
-		return false;
 		
+		return false;
 	}
 
 }

@@ -71,7 +71,6 @@ public class Control {
 		t.setWaitingTime(Math.abs(random.nextInt() % 10));
 		t.setTimestamp(TimeUnit.NANOSECONDS.toMicros(System.nanoTime()));
 
-		//System.out.println(t.getTimestamp() +"|"+ t.getWaitingTime());
 				
 		return t;
 	}

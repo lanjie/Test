@@ -3,6 +3,7 @@ package uk.ac.ncl.csc8199.test;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.mongodb.DBCollection;
 
@@ -28,10 +29,11 @@ public class Test{
  */	
 
 		Timer timer = new Timer();
-		
-		timer.schedule(new CreateTask(), 0, 1000);
+		//AtomicReference<Double> sum = new AtomicReference<Double>();
+		//AtomicReference<Integer> count = new AtomicReference<Integer>();
+		timer.schedule(new CreateTask(), 0, 1);
 		timer.schedule(new ComputeMO1WTask(), 0, Test.slideSize);
-		timer.schedule(new RemoveMO1WTask(), 10, Test.slideSize);
+		//timer.schedule(new RemoveMO1WTask(), 10, Test.slideSize);
 		
 /*
  * ---------------------------This is 2LA test block----------------------------------
