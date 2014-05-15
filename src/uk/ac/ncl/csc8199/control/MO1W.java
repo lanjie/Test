@@ -25,17 +25,14 @@ public class MO1W {
 	}
 	
 	
-	public Double controlTuple(Tuple tuple) {
+	public void controlTuple(Tuple tuple) {
 		
 		sum += tuple.getWaitingTime();
 		Control.memory.add(tuple);
 		
 		while(removeExpiredTuples()){
 			
-		}
-				
-		return sum;
-
+		}		
 		
 	}
 	
