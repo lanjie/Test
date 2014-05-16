@@ -25,7 +25,7 @@ public class ComputeMO2LATask extends TimerTask{
 		System.out.println("-----------------------------");
 		System.out.println("SSMMemorySize: " + Control.SSMMemory.size());
 		System.out.println("--------------------------------------");
-		startTime = Control.SSMMemory.getLast().getSSMtimestamp();
+		startTime = Control.memory.getLast().getTimestamp();
 		endTime = TimeUnit.NANOSECONDS.toMicros(System.nanoTime());
 
 		OutputFile.writeIntoReport(outputFile.getContent(startTime, endTime, Runtime.getRuntime().freeMemory()/1024/1024));

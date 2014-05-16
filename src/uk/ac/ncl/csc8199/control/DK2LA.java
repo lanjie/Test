@@ -12,7 +12,7 @@ import uk.ac.ncl.csc8199.util.MongoUtil;
 
 public class DK2LA {
 	
-	public void insertToMongoDB() {
+/*	public void insertToMongoDB() {
 		
 		Tuple tuple = Control.memory.getFirst();
 		long startTime = tuple.getTimestamp();
@@ -25,13 +25,13 @@ public class DK2LA {
 				
 				for (Tuple t : Control.memory)
 				
-				MongoUtil.insert1W(t);
+				//MongoUtil.insert1W(t);
 			}
 			
 			flag = false;
 			
 		}
-	}
+	}*/
 	
 
 	

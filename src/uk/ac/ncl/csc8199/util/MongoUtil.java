@@ -3,12 +3,19 @@ package uk.ac.ncl.csc8199.util;
 
 
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import uk.ac.ncl.csc8199.control.DK1W;
 import uk.ac.ncl.csc8199.model.SSMTuple;
 import uk.ac.ncl.csc8199.model.Tuple;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 
@@ -68,7 +75,30 @@ public class MongoUtil {
 	         System.out.println("Document inserted successfully");
 	}
 	
-	public static void insert1W(Tuple tuple) {
+	public static void insert1WWithList() {
+		
+		//ArrayList<DBObject> arraylist = new ArrayList<DBObject>();
+		
+		BasicDBObject updateObject = new BasicDBObject();
+		ArrayList<DBObject> arrayList = mapTuples(DK1W.waitingList);
+		//updateObject.append("Tuple", new BasicDBObject("Tuple", result));
+		
+		coll.insert(arrayList);
+		DK1W.waitingList.clear();
+		
+		
+/*		long timeStamp = tuple.getTimestamp();
+		double waitingTime = tuple.getWaitingTime();
+		
+		BasicDBObject doc = new BasicDBObject("TimeStamp", timeStamp).
+	            append("WaitingTime", waitingTime);
+	         coll.insert(waitingList);
+	       //System.out.println("Document inserted successfully");
+*/	
+
+	}
+	
+	public static void insert1WWithSingle(Tuple tuple) {
 		
 		long timeStamp = tuple.getTimestamp();
 		double waitingTime = tuple.getWaitingTime();
@@ -76,7 +106,21 @@ public class MongoUtil {
 		BasicDBObject doc = new BasicDBObject("TimeStamp", timeStamp).
 	            append("WaitingTime", waitingTime);
 	         coll.insert(doc);
-	       //System.out.println("Document inserted successfully");
+	      // System.out.println("Document inserted successfully");
+	}
+	
+	public static ArrayList<DBObject> mapTuples(LinkedList<Tuple> waitingList) {
+		  
+		ArrayList<DBObject> arraylist = new ArrayList<DBObject>();
+		
+		BasicDBList result = new BasicDBList();
+		  for (Tuple tuple: waitingList) {
+		    DBObject doc = new BasicDBObject("TimeStamp", tuple.getTimestamp()).
+		    		append("WaitingTime", tuple.getWaitingTime());
+		    arraylist.add(doc);
+		  }
+		  
+		  return arraylist;
 	}
 	
 }

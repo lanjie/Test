@@ -1,10 +1,12 @@
 package uk.ac.ncl.csc8199.control;
 
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -20,6 +22,8 @@ public class DK1W{
 	private static double size;
 	private static boolean flag = true;
 	private static long timestamp;
+	public static double count;
+	public static LinkedList<Tuple> waitingList = new LinkedList<Tuple>();
 
 	public Tuple createTuple() {
 
@@ -33,28 +37,36 @@ public class DK1W{
 		return tuple;
 	}
 	
-	public void controlDB(Tuple tuple) {
+	public LinkedList<Tuple> controlDB(Tuple tuple) {
+
 		
 		sum += tuple.getWaitingTime();
 		size++;
-		Control.memory.add(tuple);
 		
-		while(flag) {
+		
+/*		while(flag) {
 			
 			getOldestTimestamp();
-		}
+		}*/
 		
-		while(isOldest()) {
+		if(!isFull()) {
 
-			MongoUtil.insert1W(Control.memory.getFirst());
-			Control.memory.remove();
+			Control.memory.add(tuple);
+					
+		}
+		else{
+		
+			MongoUtil.insert1WWithSingle(tuple);
+			count++;
+		//waitingList.add(tuple);
 		
 		}
+		return waitingList;
 	}
 	
-	public boolean isOldest() {
+	public boolean isFull() {
 		
-		if(Control.memory.size() > 500000) {
+		if(Control.memory.size() > 10000) {
 			
 			return true;
 		}

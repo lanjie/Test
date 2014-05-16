@@ -15,7 +15,7 @@ import uk.ac.ncl.csc8199.util.MongoUtil;
 public class Test{
 
 
-	public static long windowSize = TimeUnit.SECONDS.toMicros(10);
+	public static long windowSize = TimeUnit.SECONDS.toMicros(20);
 	public static long slideSize = TimeUnit.SECONDS.toMillis(1);
 
 	
