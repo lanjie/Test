@@ -46,15 +46,23 @@ public class MO1W {
 	
 
 	
-	public boolean isExpired(Tuple temp) {
+	public boolean isExpired(){
 		
-		if(temp.getTimestamp() < (getCurrentTime() - Test.windowSize)) {
+		if(!Control.memory.isEmpty()) {
 			
-		//	System.out.println("Expired");
-			
-			return true;
-		
+			if(Control.memory.getFirst().getTimestamp() < (getCurrentTime() - Test.windowSize)) {
+				
+				//	System.out.println("Expired");
+					
+					return true;
+				
+				}
 		}
+		else {
+			
+			return false;
+		}
+
 		
 		return false;
 	}

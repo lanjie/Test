@@ -34,8 +34,8 @@ public class ComputeDK1WTask extends TimerTask{
 		System.out.println(Runtime.getRuntime().maxMemory()/1024/1024 + "MB/"+ Runtime.getRuntime().freeMemory()/1024/1024 + "MB/" + Runtime.getRuntime().totalMemory()/1024/1024 + "MB");
 		startTime = Control.memory.getLast().getTimestamp();
 		endTime = TimeUnit.NANOSECONDS.toMicros(System.nanoTime());
-		System.out.println(DK1W.count);
-		System.out.println(DK1W.waitingList.size());
+		System.out.println(Control.memory.size());
+		//System.out.println(DK1W.waitingList.size());
 
 		OutputFile.writeIntoReport(outputFile.getContent(startTime, endTime, Runtime.getRuntime().freeMemory()/1024/1024));
 	}

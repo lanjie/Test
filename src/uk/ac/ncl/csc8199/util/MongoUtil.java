@@ -7,6 +7,7 @@ import java.awt.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import uk.ac.ncl.csc8199.control.Control;
 import uk.ac.ncl.csc8199.control.DK1W;
 import uk.ac.ncl.csc8199.model.SSMTuple;
 import uk.ac.ncl.csc8199.model.Tuple;
@@ -15,6 +16,7 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
@@ -24,6 +26,7 @@ public class MongoUtil {
 	public static MongoClient mongoClient;
 	public static DB db;
 	public static DBCollection coll;
+	public static DBCursor cursor;
 
 	public static void init1W() {
 		
@@ -33,6 +36,7 @@ public class MongoUtil {
 	        System.out.println("Connect to database successfully");        
 	        coll = db.getCollection("Tuple");
 	        System.out.println("Collection mycol selected successfully");
+	        cursor = MongoUtil.coll.find();
 	         
 
 	      }catch(Exception e){
@@ -121,6 +125,31 @@ public class MongoUtil {
 		  }
 		  
 		  return arraylist;
+	}
+	
+	public DBCursor queryMongoDB() {
+		
+		cursor = MongoUtil.coll.find();
+		
+		return cursor;
+	}
+	
+	public static void getTupleFromMongoDB() {
+		
+		if(cursor.hasNext()){
+	      
+        DBObject doc = cursor.next();
+        System.out.println(doc);
+
+        
+        long timestamp = Long.parseLong(doc.get("TimeStamp").toString());
+        double waitingTime = Double.parseDouble(doc.get("WaitingTime").toString());
+        Tuple tuple = new Tuple();
+        tuple.setTimestamp(timestamp);
+        tuple.setWaitingTime(waitingTime);
+        Control.memory.add(tuple);
+		}
+
 	}
 	
 }

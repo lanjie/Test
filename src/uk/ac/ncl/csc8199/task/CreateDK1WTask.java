@@ -25,7 +25,7 @@ public class CreateDK1WTask extends TimerTask{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		for(int i = 0; i < 200; i++) {
+		for(int i = 0; i < 1; i++) {
 			dk1w.controlDB((dk1w.createTuple()));
 		}
 	}

@@ -16,14 +16,16 @@ import uk.ac.ncl.csc8199.model.Tuple;
 import uk.ac.ncl.csc8199.test.Test;
 import uk.ac.ncl.csc8199.util.MongoUtil;
 
-public class DK1W{
+public class DK1W extends MO1W{
 
 	private static double sum;
 	private static double size;
 	private static boolean flag = true;
 	private static long timestamp;
 	public static double count;
+	public static double dbOffset = 0;
 	public static LinkedList<Tuple> waitingList = new LinkedList<Tuple>();
+	MO1W mo1w = new MO1W();
 
 	public Tuple createTuple() {
 
@@ -37,36 +39,41 @@ public class DK1W{
 		return tuple;
 	}
 	
-	public LinkedList<Tuple> controlDB(Tuple tuple) {
-
-		
-		sum += tuple.getWaitingTime();
-		size++;
-		
-		
-/*		while(flag) {
-			
-			getOldestTimestamp();
-		}*/
+	
+	public void controlDB(Tuple tuple) {		
 		
 		if(!isFull()) {
 
 			Control.memory.add(tuple);
-					
+			sum += tuple.getWaitingTime();
+			size++;		
 		}
 		else{
 		
 			MongoUtil.insert1WWithSingle(tuple);
-			count++;
+			sum += tuple.getWaitingTime();
+			size++;
 		//waitingList.add(tuple);
-		
 		}
-		return waitingList;
+		
+
+		if(mo1w.isExpired()) {
+			
+			sum-=Control.memory.getFirst().getWaitingTime();
+			size--;
+			MongoUtil.getTupleFromMongoDB();
+			
+		}
+
+
+
 	}
+	
+
 	
 	public boolean isFull() {
 		
-		if(Control.memory.size() > 10000) {
+		if(Control.memory.size() > 10) {
 			
 			return true;
 		}

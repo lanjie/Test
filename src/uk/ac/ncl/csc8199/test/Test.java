@@ -15,7 +15,7 @@ import uk.ac.ncl.csc8199.util.MongoUtil;
 public class Test{
 
 
-	public static long windowSize = TimeUnit.SECONDS.toMicros(20);
+	public static long windowSize = TimeUnit.SECONDS.toMicros(10);
 	public static long slideSize = TimeUnit.SECONDS.toMillis(1);
 
 	
@@ -54,7 +54,7 @@ public class Test{
 		Timer timer = new Timer();
 		MongoUtil.init1W();
 		
-		timer.schedule(new CreateDK1WTask(), 0, 1);
+		timer.schedule(new CreateDK1WTask(), 0, 1000);
 		timer.schedule(new ComputeDK1WTask(), 0, Test.slideSize);
 
 	}	
