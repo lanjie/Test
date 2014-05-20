@@ -16,14 +16,14 @@ import uk.ac.ncl.csc8199.model.Tuple;
 import uk.ac.ncl.csc8199.test.Test;
 import uk.ac.ncl.csc8199.util.MongoUtil;
 
-public class DK1W extends MO1W{
+public class DK1W extends MO1W {
 
 	private static double sum;
 	private static double size;
 	private static boolean flag = true;
 	private static long timestamp;
 	public static double count;
-	public static double dbOffset = 0;
+	public static long dbOffset = 0;
 	public static LinkedList<Tuple> waitingList = new LinkedList<Tuple>();
 	MO1W mo1w = new MO1W();
 
@@ -31,93 +31,86 @@ public class DK1W extends MO1W{
 
 		Tuple tuple = new Tuple();
 		Random random = new Random();
-		
+
 		tuple.setWaitingTime(Math.abs(random.nextInt() % 10));
 		tuple.setTimestamp(TimeUnit.NANOSECONDS.toMicros(System.nanoTime()));
 
-				
 		return tuple;
 	}
-	
-	
-	public void controlDB(Tuple tuple) {		
-		
-		if(!isFull()) {
+
+	public void controlDB(Tuple tuple) {
+
+		if (!isFull() && dbOffset <= 0) {
 
 			Control.memory.add(tuple);
 			sum += tuple.getWaitingTime();
-			size++;		
-		}
-		else{
-		
+			size++;
+		} else {
+
 			MongoUtil.insert1WWithSingle(tuple);
 			sum += tuple.getWaitingTime();
 			size++;
-		//waitingList.add(tuple);
+			// waitingList.add(tuple);
 		}
-		
 
-		if(mo1w.isExpired()) {
-			
-			sum-=Control.memory.getFirst().getWaitingTime();
+		if (mo1w.isExpired()) {
+
+			sum -= Control.memory.getFirst().getWaitingTime();
+			Control.memory.removeFirst();
 			size--;
 			MongoUtil.getTupleFromMongoDB();
-			
+
 		}
 
-
-
 	}
-	
 
-	
 	public boolean isFull() {
-		
-		if(Control.memory.size() > 10) {
-			
+
+		if (Control.memory.size() > 5000) {
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public void getOldestTimestamp() {
-		
+
 		timestamp = Control.memory.getFirst().getTimestamp();
 		flag = false;
 	}
-	
+
 	public boolean isExpiredInMongoDB() {
-		
-		ArrayList <Long> expiredTuples = new ArrayList<Long>();
-		
+
+		ArrayList<Long> expiredTuples = new ArrayList<Long>();
+
 		BasicDBObject field = new BasicDBObject();
 		field.put("TimeStamp", timestamp);
 
 		DBCursor cursor = MongoUtil.coll.find(field);
-		while(cursor.hasNext()) {
-			
+		while (cursor.hasNext()) {
+
 			DBObject temp = cursor.next();
-			expiredTuples.add((Long)temp.get("WaitingTime"));
+			expiredTuples.add((Long) temp.get("WaitingTime"));
 			cursor.remove();
 		}
-		
-		for(Long expiredTuple : expiredTuples) {
-			
-			sum-=expiredTuple;
+
+		for (Long expiredTuple : expiredTuples) {
+
+			sum -= expiredTuple;
 			size--;
 		}
-		
+
 		flag = true;
 		return false;
 	}
-	
+
 	public void AVG() {
-		
+
 		System.out.println("Size = " + size);
 		System.out.println("Amount = " + sum);
-		System.out.println("AVG = " + sum/size);
+		System.out.println("AVG = " + sum / size);
 
 	}
-	
+
 }

@@ -8,9 +8,10 @@ public class Remove2LATask {
 	Control control = new Control();
 	DK1W control2la = new DK1W();
 	Test test = new Test();
+
 	public void run() {
 		// TODO Auto-generated method stub
-			
-		//System.out.println("-------------------");
+
+		// System.out.println("-------------------");
 	}
 }

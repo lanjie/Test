@@ -18,95 +18,91 @@ import uk.ac.ncl.csc8199.test.Test;
 import uk.ac.ncl.csc8199.util.MongoUtil;
 
 public class MO2LA {
-	
+
 	public static double sum = 0;
 	public static double size = 0;
 
-	
 	public Tuple createTuple() {
 
 		Tuple tuple = new Tuple();
 		Random random = new Random();
-		
+
 		tuple.setWaitingTime(Math.abs(random.nextInt() % 10));
 		tuple.setTimestamp(TimeUnit.NANOSECONDS.toMicros(System.nanoTime()));
 
-				
 		return tuple;
 	}
-	
+
 	public void insertTuplesIntoMemery(Tuple tuple) {
-		
+
 		Control.memory.add(tuple);
-				
+
 	}
-	
+
 	public SSMTuple createSSMTuple(LinkedList<Tuple> memory) {
-		
+
 		double amount = 0;
 		double count = 0;
 		long startTime = memory.getFirst().getTimestamp();
-		
+
 		SSMTuple ssmTuple = new SSMTuple();
 		ssmTuple.setSSMtimestamp(startTime);
-		
-		for(Iterator<Tuple> i = memory.iterator(); i.hasNext(); ){
 
-				Tuple temp = i.next();
-				amount+=temp.getWaitingTime();				
-				count++;
-				i.remove();
+		for (Iterator<Tuple> i = memory.iterator(); i.hasNext();) {
 
+			Tuple temp = i.next();
+			amount += temp.getWaitingTime();
+			count++;
+			i.remove();
 
 		}
-		
+
 		ssmTuple.setAmonut(amount);
 		ssmTuple.setSSMtimestamp(startTime);
 		ssmTuple.setSampleSize(count);
 
-		
 		return ssmTuple;
-		
+
 	}
-	
+
 	public void controlSSMTuple(SSMTuple ssmTuple) {
-		
+
 		sum += ssmTuple.getAmonut();
 		size += ssmTuple.getSampleSize();
 		Control.SSMMemory.add(ssmTuple);
-		
-		while(removeExpiredTuples()){
-			
+
+		while (removeExpiredTuples()) {
+
 		}
-					
+
 	}
-	
+
 	public boolean removeExpiredTuples() {
-		
-		if(Control.SSMMemory.getFirst().getSSMtimestamp() < (getCurrentTime() - Test.windowSize)) {
-			
+
+		if (Control.SSMMemory.getFirst().getSSMtimestamp() < (getCurrentTime() - Test.windowSize)) {
+
 			sum -= Control.SSMMemory.getFirst().getAmonut();
 			size -= Control.SSMMemory.getFirst().getSampleSize();
 			Control.SSMMemory.removeFirst();
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public void SSMAVG(LinkedList<SSMTuple> SSMMemory) {
-		
+
 		System.out.println("Size = " + size);
 		System.out.println("Amount = " + sum);
-		System.out.println("AVG = " + sum/size);
+		System.out.println("AVG = " + sum / size);
 
 	}
-	
+
 	public Long getCurrentTime() {
-		
+
 		long currentTime = TimeUnit.NANOSECONDS.toMicros(System.nanoTime());
-		
+
 		return currentTime;
 	}
 
