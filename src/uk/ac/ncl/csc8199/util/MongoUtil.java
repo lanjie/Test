@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import uk.ac.ncl.csc8199.control.Control;
 import uk.ac.ncl.csc8199.control.DK1W;
+import uk.ac.ncl.csc8199.control.DK2LA;
 import uk.ac.ncl.csc8199.model.SSMTuple;
 import uk.ac.ncl.csc8199.model.Tuple;
 
@@ -23,6 +24,7 @@ public class MongoUtil {
 	public static DB db;
 	public static DBCollection coll;
 	public static DBCursor cursor;
+	public static int offset = 0;
 
 	public static void init1W() {
 
@@ -32,7 +34,7 @@ public class MongoUtil {
 			System.out.println("Connect to database successfully");
 			coll = db.getCollection("Tuple");
 			System.out.println("Collection mycol selected successfully");
-			cursor = MongoUtil.coll.find();
+			//cursor = MongoUtil.coll.find();
 
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -101,6 +103,19 @@ public class MongoUtil {
 		DK1W.dbOffset++;
 		// System.out.println("Document inserted successfully");
 	}
+	
+	public static void insert2LAWithSingle(SSMTuple ssmTuple) {
+
+		long timeStamp = ssmTuple.getSSMtimestamp();
+		double waitingTime = ssmTuple.getAmonut();
+		double sampleSize = ssmTuple.getSampleSize();
+
+		BasicDBObject doc = new BasicDBObject("TimeStamp", timeStamp).append(
+				"WaitingTime", waitingTime).append("SampleSize", sampleSize);
+		coll.insert(doc);
+		DK2LA.dbOffset++;
+		// System.out.println("Document inserted successfully");
+	}
 
 	public static ArrayList<DBObject> mapTuples(LinkedList<Tuple> waitingList) {
 
@@ -125,8 +140,10 @@ public class MongoUtil {
 
 	public static void getTupleFromMongoDB() {
 
+		cursor = MongoUtil.coll.find().skip(offset);
+		
 		if (cursor.hasNext()) {
-
+			
 			DBObject doc = cursor.next();
 
 			long timestamp = Long.parseLong(doc.get("TimeStamp").toString());
@@ -136,8 +153,35 @@ public class MongoUtil {
 			tuple.setTimestamp(timestamp);
 			tuple.setWaitingTime(waitingTime);
 			Control.memory.add(tuple);
-			System.out.println(doc);
+			//System.out.println(doc);
 			DK1W.dbOffset--;
+			offset++;
+			//coll.remove(doc);
+		}
+
+	}
+	
+	public static void getSSMTupleFromMongoDB() {
+
+		cursor = MongoUtil.coll.find().skip(offset);
+		
+		if (cursor.hasNext()) {
+			
+			DBObject doc = cursor.next();
+
+			double sampleSize = Double.parseDouble(doc.get("SampleSize").toString());
+			long timestamp = Long.parseLong(doc.get("TimeStamp").toString());
+			double waitingTime = Double.parseDouble(doc.get("WaitingTime")
+					.toString());
+			SSMTuple SSMTuple = new SSMTuple();
+			SSMTuple.setSSMtimestamp(timestamp);
+			SSMTuple.setAmonut(waitingTime);
+			SSMTuple.setSampleSize(sampleSize);
+			Control.SSMMemory.add(SSMTuple);
+			//System.out.println(doc);
+			DK2LA.dbOffset--;
+			offset++;
+			//coll.remove(doc);
 		}
 
 	}

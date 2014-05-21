@@ -4,6 +4,7 @@ import java.util.TimerTask;
 
 import uk.ac.ncl.csc8199.control.DK1W;
 import uk.ac.ncl.csc8199.control.MO1W;
+import uk.ac.ncl.csc8199.model.Tuple;
 
 /**
  * 
@@ -25,8 +26,10 @@ public class CreateDK1WTask extends TimerTask {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		Tuple tuple;
 		for (int i = 0; i < 1; i++) {
-			dk1w.controlDB((dk1w.createTuple()));
+			tuple = dk1w.createTuple();
+			dk1w.controlDB(tuple);
 		}
 	}
 

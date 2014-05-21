@@ -66,7 +66,7 @@ public class DK1W extends MO1W {
 
 	public boolean isFull() {
 
-		if (Control.memory.size() > 5000) {
+		if (Control.memory.size() > 500) {
 
 			return true;
 		}

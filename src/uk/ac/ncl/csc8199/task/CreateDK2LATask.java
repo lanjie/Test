@@ -1,0 +1,23 @@
+package uk.ac.ncl.csc8199.task;
+
+import java.util.TimerTask;
+
+import uk.ac.ncl.csc8199.control.MO2LA;
+
+public class CreateDK2LATask extends TimerTask{
+
+
+		MO2LA mo2la = new MO2LA();
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+
+			for(int i = 0; i < 300; i++) {
+				mo2la.insertTuplesIntoMemery(mo2la.createTuple());
+
+			}
+		}
+
+	
+}

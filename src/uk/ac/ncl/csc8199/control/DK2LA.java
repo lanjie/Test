@@ -1,56 +1,90 @@
 package uk.ac.ncl.csc8199.control;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+import uk.ac.ncl.csc8199.model.SSMTuple;
 import uk.ac.ncl.csc8199.model.Tuple;
 import uk.ac.ncl.csc8199.test.Test;
 import uk.ac.ncl.csc8199.util.MongoUtil;
 
-public class DK2LA {
+public class DK2LA extends MO2LA{
+	
+	private static double sum;
+	private static double size;
+	private static boolean flag = true;
+	private static long timestamp;
+	public static double count;
+	public static long dbOffset = 0;
+	public static LinkedList<Tuple> waitingList = new LinkedList<Tuple>();
+	MO1W mo1w = new MO1W();
+	MO2LA mo2la = new MO2LA();
+	
+	public void controlDB(SSMTuple ssmTuple) {
 
-	/*
-	 * public void insertToMongoDB() {
-	 * 
-	 * Tuple tuple = Control.memory.getFirst(); long startTime =
-	 * tuple.getTimestamp(); long endTime =
-	 * Control.memory.getLast().getTimestamp(); boolean flag = true;
-	 * 
-	 * while(flag) {
-	 * 
-	 * if (startTime + Test.windowSize > endTime) {
-	 * 
-	 * for (Tuple t : Control.memory)
-	 * 
-	 * //MongoUtil.insert1W(t); }
-	 * 
-	 * flag = false;
-	 * 
-	 * } }
-	 */
+		if (!isFull() && dbOffset <= 0) {
 
-	public void getFromMongoDB() {
+			Control.SSMMemory.add(ssmTuple);
+			sum += ssmTuple.getAmonut();
+			size += ssmTuple.getSampleSize();
+		} else {
 
-		BasicDBObject query = new BasicDBObject();
-		BasicDBObject field = new BasicDBObject();
-		field.put("TimeStamp", (System.currentTimeMillis() - Test.windowSize));
-		ArrayList<Long> tempMemory = new ArrayList<Long>();
+			MongoUtil.insert2LAWithSingle(ssmTuple);
+			sum += ssmTuple.getAmonut();
+			size += ssmTuple.getSampleSize();
+			// waitingList.add(tuple);
+		}
 
-		DBCursor cursor = MongoUtil.coll.find(query, field);
-		while (cursor.hasNext()) {
+		if (isExpired()) {
 
-			DBObject temp = cursor.next();
-			tempMemory.add((Long) temp.get("WaitingTime"));
-			cursor.remove();
+			sum -= Control.SSMMemory.getFirst().getAmonut();
+			Control.SSMMemory.removeFirst();
+			size -= Control.SSMMemory.getFirst().getSampleSize();
+			MongoUtil.getSSMTupleFromMongoDB();
 
 		}
 
 	}
+	
+	public boolean isFull() {
 
-	public void removeFromMongoDB() {
+		if (Control.SSMMemory.size() > 5) {
+
+			return true;
+		}
+
+		return false;
+	}
+	
+	public boolean isExpired() {
+
+		if (!Control.SSMMemory.isEmpty()) {
+
+			if (Control.SSMMemory.getFirst().getSSMtimestamp() < (getCurrentTime() - Test.windowSize)) {
+
+				// System.out.println("Expired");
+
+				return true;
+
+			}
+		} else {
+
+			return false;
+		}
+
+		return false;
+	}
+	
+	public void AVG() {
+
+		System.out.println("Size = " + size);
+		System.out.println("Amount = " + sum);
+		System.out.println("AVG = " + sum / size);
 
 	}
+
 }
